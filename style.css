@@ -8,7 +8,7 @@
 /* —— body + fonts —— */
 body {
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
-  color: #333;
+  color: #000000;
   display: flex;
   justify-content: center;
 }
@@ -24,6 +24,15 @@ body {
   padding-top: 50px;
 }
 
+/* Logo styling */
+.site-logo {
+  width: 50px; /* Adjust size as needed */
+  height: auto;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px; /* Space between logo and title */
+}
+
 .site-title {
   font-size: 22px;
   font-weight: 500;
@@ -37,7 +46,7 @@ body {
 
 .chat-window {
   height: 360px;
-  border: 1px solid #000;
+  border: 1px solid #0000;
   padding: 20px;
   font-size: 18px;
   line-height: 1.5;
@@ -57,7 +66,7 @@ body {
 }
 
 .msg.ai {
-  color: #666666;
+  color: #FF0038;
 }
 
 /* input row */
