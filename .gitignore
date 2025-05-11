@@ -1,2 +1,4 @@
 # Secrets file containing API keys
 secrets.js
+// secrets.js
+const apiKey = "your-api-key-here";
