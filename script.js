@@ -1,6 +1,3 @@
-// Load your API key (assumes secrets.js is included in HTML BEFORE script.js)
-import { apiKey } from "./secrets.js"; // If using ES modules
-
 // DOM elements
 const chatForm = document.getElementById("chatForm");
 const userInput = document.getElementById("userInput");
@@ -9,43 +6,31 @@ const chatWindow = document.getElementById("chatWindow");
 // Initial greeting
 chatWindow.innerHTML = "👋 Hello! How can I help you today about L’Oréal products?";
 
-// Function to send user input to OpenAI API
+// Send user message to Cloudflare Worker
 async function getChatbotResponse(message) {
-  const endpoint = "https://api.openai.com/v1/chat/completions";
-
-  const systemPrompt = {
-    role: "system",
-    content:
-      "You are a helpful AI assistant who only answers questions about L’Oréal products, beauty routines, and personalized skincare or haircare recommendations. Do not respond to questions unrelated to L’Oréal."
-  };
-
-  const userPrompt = {
-    role: "user",
-    content: message
-  };
+  const CLOUDFLARE_WORKER_URL = "https://your-worker-name.your-subdomain.workers.dev"; // Replace with your real URL
 
   const payload = {
-    model: "gpt-3.5-turbo", // or "gpt-4" if available and desired
-    messages: [systemPrompt, userPrompt],
-    temperature: 0.7
+    messages: [
+      { role: "user", content: message }
+    ]
   };
 
   try {
-    const response = await fetch(endpoint, {
+    const response = await fetch(CLOUDFLARE_WORKER_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(payload)
     });
 
     const data = await response.json();
-    const chatbotMessage = data.choices[0].message.content;
+    const chatbotMessage = data.choices?.[0]?.message?.content || "Sorry, I didn’t catch that.";
     return chatbotMessage;
   } catch (error) {
-    console.error("Error fetching from OpenAI:", error);
-    return "Sorry, I had trouble connecting to the assistant.";
+    console.error("Error communicating with the Cloudflare Worker:", error);
+    return "Oops! Something went wrong while talking to the assistant.";
   }
 }
 
